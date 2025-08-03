@@ -5,6 +5,7 @@ import { Home } from 'lucide-react';
 import Products from './components/Products';
 import Cart from './pages/Cart';
 import ProductDetails from './components/ProductDetails';
+import Checkout from './pages/Checkout';
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <Route path="products" element={<Products/>} />
                 <Route path="product-details/:id" element={<ProductDetails/>} />
                 <Route path="cart" element={<Cart/>} />
+                <Route path="checkout" element={<Checkout/>} />
             </Routes>
         </div>
     );

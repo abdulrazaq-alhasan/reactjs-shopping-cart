@@ -1,16 +1,14 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToCart, decrementQuantity, incrementQuantity } from '../rtk/cartSlice'
+import { addToCart } from '../rtk/cartSlice'
 
 function ProductDetails() {
     const { id } = useParams()
-    const products = useSelector(state => state.products)
-    const product = products.find(product => String(product.id) === id) 
+    const { products } = useSelector(state => state.products)
+    const product = products.find(product => String(product.id) === id)
 
     const dispatch = useDispatch()
-
-    const cartItem = useSelector(state => state.cart.find(item => String(item.id) === id))
 
     if (!product) return <div className="text-center text-red-600 mt-32 text-xl">The Product Not Found!</div>
 

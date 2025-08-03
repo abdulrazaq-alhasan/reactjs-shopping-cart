@@ -5,21 +5,23 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function Products() {
-    const products = useSelector((state) => state.products);
+    const { products, loading, error } = useSelector((state) => state.products);
     console.log('products', products);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(fetchProducts());
-    }, []);
+    }, [dispatch]);
+
+    if (loading) return <p className='mt-20 text-center'>Loading...</p>
+    if (error) return <p>{error.message}</p>
 
     return (
         <section className=" mx-auto px-37 mt-25">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 ">
                 {products?.map((product) => (
-                    <a
-                        href="#"
-                        className="group relative block overflow-hidden"
+                    <div
+                        className="group relative block overflow-hidden border border-gray-200"
                         key={product.id}
                     >
                         <button className="absolute end-4 top-4 z-10 rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75">
@@ -44,10 +46,10 @@ function Products() {
                         <img
                             src={product.image}
                             alt={product.title}
-                            className="p-5 h-64 w-full object-contain transition duration-500 group-hover:scale-105 sm:h-72"
+                            className="p-3 h-64 w-full object-contain transition duration-500 group-hover:scale-105 sm:h-72"
                         />
 
-                        <div className="relative border border-gray-100 bg-white p-2">
+                        <div className="relative bg-white p-2">
                             <span className="bg-yellow-400 rounded-2xl px-3 py-1.5 text-xs font-medium whitespace-nowrap">
                                 New
                             </span>
@@ -60,28 +62,25 @@ function Products() {
                                 $ {product.price}
                             </p>
 
-                            <form className="mt-4 flex gap-2">
+                            <div className="mt-4 flex gap-2">
                                 <Link
                                     to={`/product-details/${product.id}`}
-
-                                    className=" text-center flex-1 rounded-sm bg-blue-500 text-white p-2 text-sm font-medium transition hover:scale-105 hover:bg-blue-600"
+                                    className="flex-1 text-center hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:scale-105 hover:text-teal-600/75 sm:block"
                                 >
                                     View
                                 </Link>
                                 <button
-                                    onClick={(e) => {
-                                        e.preventDefault();
+                                    onClick={() => {
                                         dispatch(addToCart(product));
+                                        console.log(product);
                                     }}
-                                    className="flex-1 rounded-sm bg-emerald-500 text-white p-2 text-sm font-medium transition hover:scale-105 hover:bg-emerald-600"
+                                    className="flex-1 rounded-sm bg-teal-700 text-white p-2 text-sm font-medium transition hover:scale-105 hover:bg-teal-600"
                                 >
                                     Add to Cart
                                 </button>
-                            </form>
-
-
+                            </div>
                         </div>
-                    </a>
+                    </div>
                 ))}
             </div>
         </section>

@@ -12,6 +12,11 @@ function Cart() {
         return (
             <div className="mt-24 text-center text-2xl text-gray-600">
                 Cart is Empty!
+                <div className="mt-4">
+                    <Link to="/" className="bg-teal-700 text-white px-6 py-2 rounded hover:bg-teal-600 transition">
+                        Continue Shopping
+                    </Link>
+                </div>
             </div>
         );
 
@@ -21,7 +26,7 @@ function Cart() {
                 <h1 className="text-3xl font-bold text-teal-700">Your Cart</h1>
                 <button
                     onClick={() => dispatch(clearCart())}
-                    className="bg-teal-700 text-white px-4 py-2 rounded hover:bg-teal-600 transition"
+                    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
                 >
                     Clear Cart
                 </button>
@@ -56,26 +61,32 @@ function Cart() {
                                     <span> $ {item.price} </span>
                                 </td>
                                 <td className="px-4 py-3">
-                                    <button onClick={() => dispatch(decrementQuantity(item))} className="bg-teal-700 hover:bg-teal-600 text-white px-2 py-1 rounded font-medium transition">-</button>
-                                    <span className="mx-2">{item.quantity}</span>
-                                    <button onClick={() => dispatch(incrementQuantity(item))} className="bg-teal-700 hover:bg-teal-600 text-white px-2 py-1 rounded font-medium transition">+</button>
-
+                                    <div className="flex items-center space-x-2">
+                                        <button
+                                            onClick={() => dispatch(decrementQuantity(item))}
+                                            className="bg-teal-700 hover:bg-teal-600 text-white px-2 py-1 rounded font-medium transition"
+                                        >
+                                            -
+                                        </button>
+                                        <span className="mx-2 font-medium">{item.quantity || 1}</span>
+                                        <button
+                                            onClick={() => dispatch(incrementQuantity(item))}
+                                            className="bg-teal-700 hover:bg-teal-600 text-white px-2 py-1 rounded font-medium transition"
+                                        >
+                                            +
+                                        </button>
+                                    </div>
                                 </td>
 
                                 <td className="px-4 py-3 font-bold text-gray-800">
-                                    ${item.price * (item.quantity || 1)}
+                                    ${(item.price * (item.quantity || 1)).toFixed(2)}
                                 </td>
-                                <td className="px-4 py-3 space-x-2">
-                                    <button
-                                        className="text-xl text-white px-3 py-1 rounded"
-                                    >
-                                        🖋️
-                                    </button>
+                                <td className="px-4 py-3">
                                     <button
                                         onClick={() => dispatch(removeFromCart(item))}
-                                        className="text-l text-white px-3 py-1 rounded"
+                                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition"
                                     >
-                                        ❌
+                                        Remove
                                     </button>
                                 </td>
                             </tr>
@@ -84,11 +95,18 @@ function Cart() {
                 </table>
             </div>
 
-            {/* المجموع الكلي */}
-            <div className="text-right mt-6">
-                <span className="text-xl font-bold text-gray-700">
+            <div className="mt-6 flex justify-between items-center">
+                <div className="text-xl font-bold text-gray-700">
                     Total: ${totalPrice.toFixed(2)}
-                </span>
+                </div>
+                <div className="space-x-4">
+                    <Link to="/products" className="bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-600 transition">
+                        Continue Shopping
+                    </Link>
+                    <Link to="/checkout" className="bg-teal-700 text-white px-6 py-2 rounded hover:bg-teal-600 transition">
+                        Proceed to Checkout
+                    </Link>
+                </div>
             </div>
         </div>
     );
