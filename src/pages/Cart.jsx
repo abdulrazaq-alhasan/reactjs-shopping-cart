@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart, clearCart } from "../rtk/cartSlice";
+import { removeFromCart, clearCart, decrementQuantity, incrementQuantity } from "../rtk/cartSlice";
+import { Link } from "react-router-dom";
 
 function Cart() {
     const cartItems = useSelector((state) => state.cart);
@@ -34,7 +35,7 @@ function Cart() {
                             <th className="px-4 py-3 text-left">Product</th>
                             <th className="px-4 py-3 text-left">Image</th>
                             <th className="px-4 py-3 text-left">Price</th>
-                            <th className="px-4 py-3 text-left">Qty</th>
+                            <th className="px-4 py-3 text-left">Quantity</th>
                             <th className="px-4 py-3 text-left">Total</th>
                             <th className="px-4 py-3 text-left">Action</th>
                         </tr>
@@ -51,32 +52,30 @@ function Cart() {
                                         className="w-16 h-16 object-contain"
                                     />
                                 </td>
-                                <td className="px-4 py-3 text-teal-700 font-semibold">
-                                    ${item.price}
+                                <td className="px-4 py-3 font-semibold">
+                                    <span> $ {item.price} </span>
                                 </td>
-                                <td className="px-4 py-3">{item.quantity || 1}</td>
+                                <td className="px-4 py-3">
+                                    <button onClick={() => dispatch(decrementQuantity(item))} className="bg-teal-700 hover:bg-teal-600 text-white px-2 py-1 rounded font-medium transition">-</button>
+                                    <span className="mx-2">{item.quantity}</span>
+                                    <button onClick={() => dispatch(incrementQuantity(item))} className="bg-teal-700 hover:bg-teal-600 text-white px-2 py-1 rounded font-medium transition">+</button>
+
+                                </td>
+
                                 <td className="px-4 py-3 font-bold text-gray-800">
                                     ${item.price * (item.quantity || 1)}
                                 </td>
                                 <td className="px-4 py-3 space-x-2">
                                     <button
-                                        onClick={() => alert(`Viewing: ${item.title}`)}
-                                        className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600"
+                                        className="text-xl text-white px-3 py-1 rounded"
                                     >
-                                        View
-                                    </button>
-
-                                    <button
-                                        onClick={() => alert(`Editing: ${item.title}`)}
-                                        className="bg-yellow-500 text-white px-3 py-1 rounded text-xs hover:bg-yellow-600"
-                                    >
-                                        Edit
+                                        🖋️
                                     </button>
                                     <button
                                         onClick={() => dispatch(removeFromCart(item))}
-                                        className="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600"
+                                        className="text-l text-white px-3 py-1 rounded"
                                     >
-                                        Delete
+                                        ❌
                                     </button>
                                 </td>
                             </tr>

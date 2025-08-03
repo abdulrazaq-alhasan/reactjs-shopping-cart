@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../rtk/productsSlice';
 import { addToCart } from '../rtk/cartSlice';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 function Products() {
     const products = useSelector((state) => state.products);
@@ -59,17 +60,26 @@ function Products() {
                                 $ {product.price}
                             </p>
 
-                            <form className="mt-4">
+                            <form className="mt-4 flex gap-2">
+                                <Link
+                                    to={`/product-details/${product.id}`}
+
+                                    className=" text-center flex-1 rounded-sm bg-blue-500 text-white p-2 text-sm font-medium transition hover:scale-105 hover:bg-blue-600"
+                                >
+                                    View
+                                </Link>
                                 <button
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        dispatch(addToCart(product))
+                                        dispatch(addToCart(product));
                                     }}
-                                    className="block w-full rounded-sm bg-teal-600 text-white p-2 text-sm font-medium transition hover:scale-105"
+                                    className="flex-1 rounded-sm bg-emerald-500 text-white p-2 text-sm font-medium transition hover:scale-105 hover:bg-emerald-600"
                                 >
                                     Add to Cart
                                 </button>
                             </form>
+
+
                         </div>
                     </a>
                 ))}
